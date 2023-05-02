@@ -8,6 +8,7 @@ var forecast = $("#forecast");
 var cityList = [];
 var localCityList = JSON.parse(localStorage.getItem("cityList")) || [];
 var localStorage = JSON.parse(localStorage.getItem("cityList")) || [];
+var submitBtn = $("#submitBtn");
 
 
 
@@ -39,4 +40,11 @@ async function getCoords(city) {
     const geoURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`;
     const response = await fetch(geoURL);
     const data = await response.json();
+}
+
+async funtion getForcast(lat, lon, city,) {
+    let forcastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${APIKey}`;
+    const response = await fetch(forcastUrl);
+    const data = await response.json();
+    console.log(data);
 }
