@@ -34,3 +34,9 @@ function displayWeather() {
 function localStorage() {
     localStorage.setItem("cityList", JSON.stringify(cityList));
 }
+
+async function getCoords(city) {
+    const geoURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`;
+    const response = await fetch(geoURL);
+    const data = await response.json();
+}
