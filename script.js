@@ -6,6 +6,7 @@ var city = $("#city").val();
 var searchBtn = $("#searchBtn");
 var searchHistory = $("#searchHistory");
 var currentWeather = $("#currentWeather");
+var displayUVIndex = $("#displayUVIndex");
 var forecast = $("#forecast");
 var cityList = [];
 var localCityList = JSON.parse(localStorage.getItem("cityList")) || [];
@@ -39,14 +40,22 @@ function localStorage() {
 }
 // function to get data
 async function getCoords(city) {
-    const geoURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`;
+    const geoURL = queryURL
     const response = await fetch(geoURL);
     const data = await response.json();
 }
 // function to get forcast
-async funtion getForcast(lat, lon, city,) {
-    let forcastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${APIKey}`;
-    const response = await fetch(forcastUrl);
-    const data = await response.json();
-    console.log(data);
+
+
+
+
+
+addEventListener("submit", function (event) {
+    event.preventDefault();
+    const city = document.getElementById("city").value;
+    getCoords(city);
+    localStorage();
+    displayWeather();
+    displaySearchHistory();
 }
+);
