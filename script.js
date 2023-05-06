@@ -1,6 +1,7 @@
 // Api key
 let APIKey = "6baaab2eaf88f88a13344b8b2da0190e";
 // Variables
+var inputval = document.querySelector('#cityinput')
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 var city = $("#city").val();
 var searchBtn = $("#searchBtn");
