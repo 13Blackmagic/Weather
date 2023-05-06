@@ -14,6 +14,9 @@ var localStorage = JSON.parse(localStorage.getItem("cityList")) || [];
 var submitBtn = $("#submitBtn");
 
 
+fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputval.value+'&appid='+APIKey)
+.then(response => response.json())
+
 // function to get current weather
 function displayCurrentWeather() {
 }
