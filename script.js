@@ -1,6 +1,7 @@
 // Api key
 let APIKey = "6baaab2eaf88f88a13344b8b2da0190e";
 // Variables
+var value = document.querySelector('#cityinput').value;
 var inputval = document.querySelector('#cityinput')
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 var city = $("#city").val();
@@ -13,13 +14,16 @@ var cityList = [];
 var localCityList = JSON.parse(localStorage.getItem("cityList")) || [];
 var localStorage = JSON.parse(localStorage.getItem("cityList")) || [];
 var submitBtn = $("#submitBtn");
-
+function convertion(val)
+{
+    return (val - 273).toFixed(2);
+}
 
 fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputval.value+'&appid='+APIKey)
 .then(response => response.json())
 
 .then(data => {
-    var nameValue = data['name'];
+    var nameValue = data[`name`];
     var descrip= data['weather'][0]['description'];
     var temp = data['main']['temp'];
     var windspd = data['wind']['speed'];
