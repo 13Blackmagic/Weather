@@ -53,7 +53,7 @@ function displayWeather() {
     displayUVIndex();
 }
 // function to store data
-function localStorage() {
+function localCityList () {
     localStorage.setItem("cityList", JSON.stringify(cityList));
 }
 // function to get data
