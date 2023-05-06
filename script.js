@@ -1,7 +1,6 @@
 // Api key
 let APIKey = "6baaab2eaf88f88a13344b8b2da0190e";
 // Variables
-var value = document.querySelector('#cityinput').value;
 var inputval = document.querySelector('#cityinput')
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 var city = $("#city").val();
@@ -19,22 +18,18 @@ function convertion(val)
     return (val - 273).toFixed(2);
 }
 
-fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputval.value+'&appid='+APIKey)
-.then(response => response.json())
 
-.then(data => {
-    var nameValue = data[`name`];
-    var descrip= data['weather'][0]['description'];
-    var temp = data['main']['temp'];
-    var windspd = data['wind']['speed'];
-    city.innerHTML='Weather of <span>${nameValue}</span>';
-    temp.innerTHML = 'Temperature: <span>${temp}</span>';
-    descrip.innerHTML = 'Description: <span>${descrip}</span>';
-    wind.innerHTML = 'Wind Speed: <span>${windspd}</span>';
 
-})
+async function getCoords(city) {
+const geoURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + OpenWeatherAPIKey;
+// fetch geo data
+const response = await fetch(geoURL);
+const geoData = await response.json();
 
-.catch(err => alert("Wrong city name!"));
+lat = parseFloat(geoData.coord.lat);
+lon = parseFloat(geoData.coord.lon);
+console.log(lat, lon);
+}
 
 
 // function to get current weather
@@ -68,17 +63,18 @@ async function getCoords(city) {
     const data = await response.json();
 }
 // function to get forcast
-
-
-
-
-
-addEventListener("submit", function (event) {
-    event.preventDefault();
-    const city = document.getElementById("city").value;
+function displayForecast() { 
+    var city = $("#city").val();
+    cityList.push(city);
+    localStorage.setItem("cityList", JSON.stringify(cityList));
     getCoords(city);
-    localStorage();
     displayWeather();
     displaySearchHistory();
 }
-);
+
+addEventListener("click", function (event) {
+    event.preventDefault();
+    var city = $("#city").val();
+    cityList.push(city);
+});
+
