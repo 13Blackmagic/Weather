@@ -17,6 +17,21 @@ var submitBtn = $("#submitBtn");
 fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputval.value+'&appid='+APIKey)
 .then(response => response.json())
 
+.then(data => {
+    var nameValue = data['name'];
+    var descrip= data['weather'][0]['description'];
+    var temp = data['main']['temp'];
+    var windspd = data['wind']['speed'];
+    city.innerHTML='Weather of <span>${nameValue}</span>';
+    temp.innerTHML = 'Temperature: <span>${temp}</span>';
+    descrip.innerHTML = 'Description: <span>${descrip}</span>';
+    wind.innerHTML = 'Wind Speed: <span>${windspd}</span>';
+
+})
+
+.catch(err => alert("Wrong city name!"));
+
+
 // function to get current weather
 function displayCurrentWeather() {
 }
