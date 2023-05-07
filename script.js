@@ -1,6 +1,8 @@
 // Api key
 let APIKey = "6baaab2eaf88f88a13344b8b2da0190e";
 // Variables
+var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+var responseText = document.querySelector('#response-text');
 var inputval = document.querySelector('#cityinput')
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 var city = $("#city").val();
@@ -17,6 +19,21 @@ function convertion(val)
 {
     return (val - 273).toFixed(2);
 }
+
+function getApi(requestUrl) {
+    fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+            console.log(response);
+            if (response.ok) {
+                response.json().then(function (data) {
+                    console.log(data);
+                    displayWeather(data, city);
+                });
+            } else {
+                alert('Error: ' + response.statusText);
+            }})}
+            
 
 
 
