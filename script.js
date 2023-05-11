@@ -1,11 +1,11 @@
 // Api key
 let APIKey = "6baaab2eaf88f88a13344b8b2da0190e";
 // Variables
-var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+var requestUrl; 
 var responseText = document.querySelector('#response-text');
 var inputval = document.querySelector('#cityinput')
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
-var city = $("#city").val();
+var city;
 var searchBtn = $("#searchBtn");
 var searchHistory = $("#searchHistory");
 var currentWeather = $("#currentWeather");
@@ -21,6 +21,7 @@ function convertion(val)
 }
 
 function getApi(requestUrl) {
+    console.log(requestUrl);
     fetch(requestUrl)
         .then(function (response) {
             return response.json();
@@ -35,6 +36,13 @@ function getApi(requestUrl) {
             }})}
             
 
+searchBtn.on("click", function (event) {
+    console.log("click");
+    event.preventDefault();
+    city = $("#city").val();
+    requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+   getApi(requestUrl);
+});
 
 
 async function getCoords(city) {

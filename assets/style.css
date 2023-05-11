@@ -28,13 +28,10 @@ p {
 }
 
 button {
-    font-size: 75%;
-}
-
-button {
     color:#020202;
     background-color: #6151f5;
     border: 2px solid #8183e9;
+    font-size: 75%;
     border-radius: 3px;
     padding: 5px;
     margin: 3px;
