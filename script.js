@@ -15,6 +15,7 @@ var cityList = [];
 var localCityList = JSON.parse(localStorage.getItem("cityList")) || [];
 var localStorage = JSON.parse(localStorage.getItem("cityList")) || [];
 var submitBtn = $("#submitBtn");
+var lat, lon;
 function convertion(val)
 {
     return (val - 273).toFixed(2);
@@ -59,7 +60,49 @@ console.log(lat, lon);
 
 
 // function to get current weather
-function displayCurrentWeather() {
+function displayCurrentWeather(lat, lon, city) {
+    let currentWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + OpenWeatherAPIKey;
+    fetch(currentWeatherURL)
+        .then(function (response) {
+            return response.json();
+        }
+        )
+        .then(function (data) {
+            console.log(data);
+            let temp = convertion(data.current.temp);
+            let wind = data.current.wind_speed;
+            let humidity = data.current.humidity;
+            let uvIndex = data.current.uvi;
+            let icon = data.current.weather[0].icon;
+            let iconURL = "http://openweathermap.org/img/w/" + icon + ".png";
+            let date = new Date(data.current.dt * 1000).toLocaleDateString("en-US");
+            let currentWeather = $("#currentWeather");
+            currentWeather.empty();
+            let currentWeatherDiv = $("<div>");
+            currentWeatherDiv.addClass("card");
+            let currentWeatherDivBody = $("<div>");
+            currentWeatherDivBody.addClass("card-body");
+            let currentWeatherDivTitle = $("<h5>");
+            currentWeatherDivTitle.addClass("card-title");
+            currentWeatherDivTitle.text(city + " (" + date + ")");
+            let currentWeatherDivIcon = $("<img>");
+            currentWeatherDivIcon.attr("src", iconURL);
+            let currentWeatherDivTemp = $("<p>");
+            currentWeatherDivTemp.addClass("card-text");
+            currentWeatherDivTemp.text("Temperature: " + temp + " °C");
+            let currentWeatherDivWind = $("<p>");
+            currentWeatherDivWind.addClass("card-text");
+            currentWeatherDivWind.text("Wind Speed: " + wind + " MPH");
+            let currentWeatherDivHumidity = $("<p>");
+            currentWeatherDivHumidity.addClass("card-text");
+            currentWeatherDivHumidity.text("Humidity: " + humidity + "%");
+            let currentWeatherDivUVIndex = $("<p>");
+            currentWeatherDivUVIndex.addClass("card-text");
+            currentWeatherDivUVIndex.text("UV Index: " + uvIndex);
+            currentWeatherDivBody.append(currentWeatherDivTitle, currentWeatherDivIcon, currentWeatherDivTemp, currentWeatherDivWind, currentWeatherDivHumidity, currentWeatherDivUVIndex);
+            currentWeatherDiv.append(currentWeatherDivBody);
+            currentWeather.append(currentWeatherDiv);
+        });
 }
 // function to get forecast
 function displayForecast() {
@@ -73,8 +116,10 @@ function displaySearchHistory() {
 function displayUVIndex() {
 }
 // function to get weather
-function displayWeather() {
-    displayCurrentWeather();
+function displayWeather(data, city) {
+    let lat = data.coord.lat;
+    let lon = data.coord.lon;
+    displayCurrentWeather(lat, lon, city);
     displayForecast();
     displayUVIndex();
 }
