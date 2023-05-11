@@ -24,17 +24,18 @@ function getApi(requestUrl) {
     console.log(requestUrl);
     fetch(requestUrl)
         .then(function (response) {
+            console.log("response.= ",response);
             return response.json();
-            console.log(response);
-            if (response.ok) {
-                response.json().then(function (data) {
-                    console.log(data);
+        })
+        .then(function (data) {
+            console.log("data= ", data);
+                    console.log("data= ", data);
                     displayWeather(data, city);
-                });
-            } else {
-                alert('Error: ' + response.statusText);
-            }})}
-            
+                })
+                .catch(function (error) {
+                console.error(error);
+            });
+        }
 
 searchBtn.on("click", function (event) {
     console.log("click");
