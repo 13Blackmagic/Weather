@@ -146,7 +146,6 @@ async function getCoords(city) {
 function displayForecast() { 
     var city = $("#city").val();
     cityList.push(city);
-    localStorage.setItem("cityList", JSON.stringify(cityList));
     //getCoords(city);
     //displayWeather();
     //displaySearchHistory();
