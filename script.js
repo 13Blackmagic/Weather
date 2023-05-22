@@ -94,7 +94,7 @@ function displayCurrentWeather(lat, lon, city) {
             currentWeatherDivIcon.attr("src", iconURL);
             let currentWeatherDivTemp = $("<p>");
             currentWeatherDivTemp.addClass("card-text");
-            currentWeatherDivTemp.text("Temperature: " + temp + " °C");
+            currentWeatherDivTemp.text("Temperature: " + temp + " °F");
             let currentWeatherDivWind = $("<p>");
             currentWeatherDivWind.addClass("card-text");
             currentWeatherDivWind.text("Wind Speed: " + wind + " MPH");
@@ -113,6 +113,10 @@ function displayCurrentWeather(lat, lon, city) {
             console.log("error", error);
             console.error(error);
         });
+
+        function convertion(temp) {
+            return Math.floor((temp - 273.15) * 1.8 + 32);
+        }
 }
 // function to get forecast
 function displayForecast() {
