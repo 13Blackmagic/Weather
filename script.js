@@ -1,5 +1,6 @@
 // Api key
-let APIKey = "6baaab2eaf88f88a13344b8b2da0190e";
+// let APIKey = "6baaab2eaf88f88a13344b8b2da0190e";
+let APIKey = "86dd1b60343c891737148e6032b4ab51";
 // Variables
 var city = document.querySelector('#city').value;
 var error = document.querySelector('#error');
@@ -50,7 +51,7 @@ searchBtn.on("click", function (event) {
 
 
 async function getCoords(city) {
-const geoURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + OpenWeatherAPIKey;
+const geoURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 // fetch geo data
 const response = await fetch(geoURL);
 const geoData = await response.json();
@@ -63,7 +64,8 @@ console.log(lat, lon);
 
 // function to get current weather
 function displayCurrentWeather(lat, lon, city) {
-    let currentWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + OpenWeatherAPIKey;
+    console.log("displayCurrentWeather");
+    let currentWeatherURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey;
     fetch(currentWeatherURL)
         .then(function (response) {
             return response.json();
@@ -71,14 +73,15 @@ function displayCurrentWeather(lat, lon, city) {
         )
         .then(function (data) {
             console.log(data);
-            let temp = convertion(data.current.temp);
-            let wind = data.current.wind_speed;
-            let humidity = data.current.humidity;
-            let uvIndex = data.current.uvi;
-            let icon = data.current.weather[0].icon;
+            let temp = convertion(data.list[0].main.temp);
+            let wind = data.list[0].wind.speed;
+            let humidity = data.list[0].main.humidity;
+            //let uvIndex = data.current.uvi;
+            let icon = data.list[0].weather[0].icon;
             let iconURL = "http://openweathermap.org/img/w/" + icon + ".png";
-            let date = new Date(data.current.dt * 1000).toLocaleDateString("en-US");
-            let currentWeather = $("#currentWeather");
+            let date = new Date(data.list[0].dt * 1000).toLocaleDateString("en-US");
+            let currentWeather = $("#currentWeather"); 
+            console.log("currentWeather line-82",);
             currentWeather.empty();
             let currentWeatherDiv = $("<div>");
             currentWeatherDiv.addClass("card");
@@ -100,10 +103,15 @@ function displayCurrentWeather(lat, lon, city) {
             currentWeatherDivHumidity.text("Humidity: " + humidity + "%");
             let currentWeatherDivUVIndex = $("<p>");
             currentWeatherDivUVIndex.addClass("card-text");
-            currentWeatherDivUVIndex.text("UV Index: " + uvIndex);
+            //currentWeatherDivUVIndex.text("UV Index: " + uvIndex);
             currentWeatherDivBody.append(currentWeatherDivTitle, currentWeatherDivIcon, currentWeatherDivTemp, currentWeatherDivWind, currentWeatherDivHumidity, currentWeatherDivUVIndex);
             currentWeatherDiv.append(currentWeatherDivBody);
             currentWeather.append(currentWeatherDiv);
+            console.log("currentWeather line-108",);
+        })
+        .catch(function (error) {
+            console.log("error", error);
+            console.error(error);
         });
 }
 // function to get forecast
@@ -119,11 +127,12 @@ function displayUVIndex() {
 }
 // function to get weather
 function displayWeather(data, city) {
+    console.log(data.coord);
     let lat = data.coord.lat;
     let lon = data.coord.lon;
     displayCurrentWeather(lat, lon, city);
     displayForecast();
-    displayUVIndex();
+    //displayUVIndex();
 }
 // function to store data
 function localCityList () {
@@ -139,10 +148,9 @@ async function getCoords(city) {
 function displayForecast() { 
     var city = $("#city").val();
     cityList.push(city);
-    localStorage.setItem("cityList", JSON.stringify(cityList));
-    getCoords(city);
-    displayWeather();
-    displaySearchHistory();
+    //getCoords(city);
+    //displayWeather();
+    //displaySearchHistory();
 }
 
 addEventListener("click", function (event) {
