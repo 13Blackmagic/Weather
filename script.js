@@ -2,6 +2,14 @@
 // let APIKey = "6baaab2eaf88f88a13344b8b2da0190e";
 let APIKey = "86dd1b60343c891737148e6032b4ab51";
 // Variables
+const weatherContainer = document.querySelector('#weather-container');
+const cityContainer = document.querySelector('#city-container');
+const iconURLContainer = document.querySelector('#iconURL-container');
+const tempContainer = document.querySelector('#temp-container');
+const windContainer = document.querySelector('#wind-container');
+const humidityContainer = document.querySelector('#humidity-container');
+const uvContainer = document.querySelector('#uv-container');
+const urlContainer = document.querySelector('#url-container');
 var city = document.querySelector('#city').value;
 var error = document.querySelector('#error');
 var requestUrl; 
@@ -135,7 +143,6 @@ function displayWeather(data, city) {
     let lat = data.coord.lat;
     let lon = data.coord.lon;
     displayCurrentWeather(lat, lon, city);
-    displayForecast();
     //displayUVIndex();
 }
 // function to store data
@@ -152,10 +159,52 @@ async function getCoords(city) {
 function displayForecast() { 
     var city = $("#city").val();
     cityList.push(city);
-    //getCoords(city);
-    //displayWeather();
-    //displaySearchHistory();
+    localCityList();
+    
+
+    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey;
+    console.log(queryURL);
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response);
+        var forecast = response.list;
+        console.log(forecast);
+        var day = 1;
+        for (var i = 0; i < forecast.length; i++) {
+            var date = forecast[i].dt_txt.split(" ")[0];    
+            var time = forecast[i].dt_txt.split(" ")[1];
+            if (time === "15:00:00") {
+                var temp = forecast[i].main.temp;
+                var humidity = forecast[i].main.humidity;
+                var icon = forecast[i].weather[0].icon;
+                var iconURL = "http://openweathermap.org/img/w/" + icon + ".png";
+                var dateDiv = $("<div>");
+                dateDiv.addClass("card");
+                var dateDivBody = $("<div>");
+                dateDivBody.addClass("card-body");
+                var dateDivTitle = $("<h5>");
+                dateDivTitle.addClass("card-title");
+                dateDivTitle.text(city + " (" + date + ")");
+                var dateDivIcon = $("<img>");
+                dateDivIcon.attr("src", iconURL);
+                var dateDivTemp = $("<p>");
+                dateDivTemp.addClass("card-text");
+                dateDivTemp.text("Temperature: " + temp + " °F");
+                var dateDivHumidity = $("<p>");
+                dateDivHumidity.addClass("card-text");
+                dateDivHumidity.text("Humidity: " + humidity + "%");
+                dateDivBody.append(dateDivTitle, dateDivIcon, dateDivTemp, dateDivHumidity);
+                dateDiv.append(dateDivBody);
+                $("#forecast" + day).html(dateDiv); 
+                day++;
+            }
+        }
+    });
 }
+
+
 
 addEventListener("click", function (event) {
     event.preventDefault();
