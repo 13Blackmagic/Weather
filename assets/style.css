@@ -29,10 +29,15 @@ p {
 
 button {
     color:#020202;
-    background-color: #6151f5;
+    background-color: #9488f9;
     border: 2px solid #8183e9;
-    font-size: 75%;
-    border-radius: 3px;
-    padding: 5px;
+    font-size: 50%;
+    border-radius: 1px;
+    padding: 2px;
     margin: 3px;
+}
+
+button:hover {
+    background-color: #5e35f3;
+    color: #fff;
 }
