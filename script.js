@@ -24,10 +24,10 @@ function convertion(val)
     return (val - 273).toFixed(2);
 }
 
-function getApi(requestUrl) {
-    console.log(requestUrl);
-    fetch(requestUrl)
-        .then(function (response) {
+function getApi(requestUrl) { // function to get api
+    console.log(requestUrl); 
+    fetch(requestUrl) // fetch api
+        .then(function (response) { 
             console.log("response.= ",response);
             return response.json();
         })
@@ -40,8 +40,8 @@ function getApi(requestUrl) {
                 console.error(error);
             });
         }
-
-searchBtn.on("click", function (event) {
+// onece the search button is clicked than the function will run
+searchBtn.on("click", function (event) { 
     console.log("click");
     event.preventDefault();
     city = $("#city").val();
@@ -49,20 +49,20 @@ searchBtn.on("click", function (event) {
    getApi(requestUrl);
 });
 
-
+// function to get the coordinates for the city that was searched
 async function getCoords(city) {
 const geoURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 // fetch geo data
 const response = await fetch(geoURL);
 const geoData = await response.json();
-
+// spacific location latatude and longitude
 lat = parseFloat(geoData.coord.lat);
 lon = parseFloat(geoData.coord.lon);
 console.log(lat, lon);
 }
 
 
-// function to get current weather
+// function to display current weather
 function displayCurrentWeather(lat, lon, city) {
     console.log("displayCurrentWeather");
     let currentWeatherURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey;
@@ -71,20 +71,20 @@ function displayCurrentWeather(lat, lon, city) {
             return response.json();
         }
         )
-        .then(function (data) {
+        .then(function (data) { 
             console.log(data);
-            let temp = convertion(data.list[0].main.temp);
-            let wind = data.list[0].wind.speed;
-            let humidity = data.list[0].main.humidity;
+            let temp = convertion(data.list[0].main.temp); 
+            let wind = data.list[0].wind.speed; // wind speed
+            let humidity = data.list[0].main.humidity; // humidity
             //let uvIndex = data.current.uvi;
-            let icon = data.list[0].weather[0].icon;
+            let icon = data.list[0].weather[0].icon; // icon for weather
             let iconURL = "http://openweathermap.org/img/w/" + icon + ".png";
-            let date = new Date(data.list[0].dt * 1000).toLocaleDateString("en-US");
+            let date = new Date(data.list[0].dt * 1000).toLocaleDateString("en-US"); // the date of the currant weather
             let currentWeather = $("#currentWeather"); 
             console.log("currentWeather line-82",);
-            currentWeather.empty();
+            currentWeather.empty(); 
             let currentWeatherDiv = $("<div>");
-            currentWeatherDiv.addClass("card");
+            currentWeatherDiv.addClass("card"); 
             let currentWeatherDivBody = $("<div>");
             currentWeatherDivBody.addClass("card-body");
             let currentWeatherDivTitle = $("<h5>");
