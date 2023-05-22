@@ -1,6 +1,8 @@
 // Api key
 let APIKey = "6baaab2eaf88f88a13344b8b2da0190e";
 // Variables
+var city = document.querySelector('#city').value;
+var error = document.querySelector('#error');
 var requestUrl; 
 var responseText = document.querySelector('#response-text');
 var inputval = document.querySelector('#cityinput')
