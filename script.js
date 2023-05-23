@@ -128,10 +128,32 @@ function displayCurrentWeather(lat, lon, city) {
 }
 // function to get forecast
 function displayForecast() {
+
 }
 
 // function to get search history
 function displaySearchHistory() {
+    console.log("displaySearchHistory");
+    let searchHistory = $("#searchHistory");
+    searchHistory.empty();
+    let searchHistoryDiv = $("<div>");
+    searchHistoryDiv.addClass("card");
+    let searchHistoryDivBody = $("<div>");
+    searchHistoryDivBody.addClass("card-body");
+    let searchHistoryDivTitle = $("<h5>");
+    searchHistoryDivTitle.addClass("card-title");
+    searchHistoryDivTitle.text("Search History");
+    searchHistoryDivBody.append(searchHistoryDivTitle);
+    searchHistoryDiv.append(searchHistoryDivBody);
+    searchHistory.append(searchHistoryDiv);
+    for (let i = 0; i < cityList.length; i++) {
+        let searchHistoryDivBodyItem = $("<p>");
+        searchHistoryDivBodyItem.addClass("card-text");
+        searchHistoryDivBodyItem.text(cityList[i]);
+        searchHistoryDivBody.append(searchHistoryDivBodyItem);
+    }
+    searchHistoryDiv.append(searchHistoryDivBody);
+    searchHistory.append(searchHistoryDiv);
 }
 
 // function to get UV index
@@ -148,6 +170,7 @@ function displayWeather(data, city) {
 // function to store data
 function localCityList () {
     localStorage.setItem("cityList", JSON.stringify(cityList));
+    console .log("localCityList", cityList);
 }
 // function to get data
 async function getCoords(city) {
